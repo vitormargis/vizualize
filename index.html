@@ -3,10 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
-  <link rel='stylesheet'id='main' href='styles/main.css' media='all' />
+  <link rel='stylesheet' href='styles/main.css' media='all' />
   <script type='text/javascript' src='scripts/jquery-2.1.3.min.js'></script>
 </head>
 <body>
+
+<ul class="presenter"></ul>
+
+<script>
+
+$(function(){
+    var request = $.getJSON('https://api.github.com/repos/vitormargis/vizualize/contents/presenter/ossos', function(data) {
+        $.each( data, function( key, val ) {
+          if(key == 0){
+            $('.presenter').append("<li class='is-active'><img src='"+data[key].download_url+"'/></li>");
+          } else {
+            $('.presenter').append("<li><img src='"+data[key].download_url+"'/></li>");
+          }
+        });
+    })
+    request.complete(function() {
+      $(document).on('click', '.is-active', function(){
+          if(!$(this).is(':last-child')){
+            $(this).next().addClass('is-active');
+            $(this).removeClass('is-active')
+          } else {
+            $(this).removeClass('is-active')
+            $('.presenter li:first-child').addClass('is-active');
+          }
+      });
+    });
+});
+
+</script>
+
 
 </body>
 </html>
