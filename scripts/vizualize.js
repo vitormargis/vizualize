@@ -101,5 +101,5 @@ $(function(){
     }
 
     //vizualize("github", "vitormargis", "vizualize", "presenter/ossos")
-    vizualize("bitbucket", "myvizir", "ui-onmove", "wireframe/jpg/tudo")
+    //vizualize("bitbucket", "myvizir", "ui-onmove", "wireframe/jpg/tudo")
 });
