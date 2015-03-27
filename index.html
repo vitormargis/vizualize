@@ -5,59 +5,28 @@
   <title>Document</title>
   <link rel='stylesheet' href='styles/main.css' media='all' />
   <script type='text/javascript' src='scripts/jquery-2.1.3.min.js'></script>
+  <script type='text/javascript' src='scripts/vizualize.js'></script>
 </head>
 <body>
 
+<form action="">
+
+    <select class="origin">
+      <option value="bitbucket">Bitbucket</option>
+      <option value="github">Github</option>
+    </select>
+
+    <input class="user" type="text">
+    <input class="repo" type="text">
+    <input class="path" type="text">
+    <a class="go" href="#">go</a>
+
+</form>
+
+<a class="prev" href="#">prev</a>
+<a class="next" href="#">next</a>
+
 <ul class="presenter"></ul>
-
-<script>
-
-$(function(){
-
-    //Config you presentation source
-
-    var origin = "bitbucket"
-    var user   = "margis"
-    var repo   = "marcelahb.com"
-    var path   = "wordpress/wp-content/themes/marcelahb/img"
-
-    if(origin == 'github'){
-      var request = $.getJSON('https://api.github.com/repos/'+user+'/'+repo+'/contents/'+path, function(data) {
-          $.each( data, function( key, val ) {
-            if(key == 0){
-              $('.presenter').append("<li class='is-active'><img src='"+data[key].download_url+"'/></li>");
-            } else {
-              $('.presenter').append("<li><img src='"+data[key].download_url+"'/></li>");
-            }
-          });
-      })
-    } else if(origin == 'bitbucket'){
-      var request = $.getJSON('https://api.bitbucket.org/1.0/repositories/margis/marcelahb.com/src/master/'+path+'?callback=?', function(data) {
-          $.each( data.files, function( key, val ) {
-            if(key == 0){
-              $('.presenter').append("<li class='is-active'><img src='https://bytebucket.org/"+user+"/"+repo+"/raw/master/"+data.files[key].path+"'/></li>");
-            } else {
-              $('.presenter').append("<li><img src='https://bytebucket.org/"+user+"/"+repo+"/raw/master/"+data.files[key].path+"'/></li>");
-            }
-          });
-      })
-    }
-
-    request.complete(function() {
-      $(document).on('click', '.is-active', function(){
-          if(!$(this).is(':last-child')){
-            $(this).next().addClass('is-active');
-            $(this).removeClass('is-active')
-          } else {
-            $(this).removeClass('is-active')
-            $('.presenter li:first-child').addClass('is-active');
-          }
-      });
-    });
-});
-
-</script>
-
 
 </body>
 </html>
