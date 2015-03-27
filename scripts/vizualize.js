@@ -36,16 +36,6 @@ $(function(){
       }
 
       request.complete(function() {
-        // $(document).on('click', '.is-active', function(){
-        //     if(!$(this).is(':last-child')){
-        //       $(this).next().addClass('is-active');
-        //       $(this).removeClass('is-active')
-        //     } else {
-        //       $(this).removeClass('is-active')
-        //       $('.presenter li:first-child').addClass('is-active');
-        //     }
-        // });
-
         $('a.next').on('click', function(){
           next()
         })
@@ -74,7 +64,7 @@ $(function(){
           e.preventDefault(); // prevent the default action (scroll / move caret)
         });
 
-        $('form').remove();
+        $('form, .bg, .logo').remove();
       });
     }
 
