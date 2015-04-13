@@ -29,8 +29,7 @@ body{
   padding: 0;
   list-style: none;
   position: relative;
-  width: 90%;
-  min-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   top:-20000px;
   -webkit-transition: opacity 0.3s ease;

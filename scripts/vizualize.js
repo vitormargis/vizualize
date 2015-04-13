@@ -38,9 +38,11 @@ $(function(){
       request.complete(function() {
         $('a.next').on('click', function(){
           next()
+          return false
         })
         $('a.prev').on('click', function(){
           prev()
+          return false
         })
 
         $(document).keydown(function(e) {
@@ -91,5 +93,16 @@ $(function(){
     }
 
     //vizualize("github", "vitormargis", "vizualize", "presenter/ossos")
-    //vizualize("bitbucket", "myvizir", "ui-onmove", "wireframe/jpg/tudo")
+    //vizualize("bitbucket", "myvizir", "ui-onmove", "apresentacao/wireframes")
+
+
+    var hash = window.location.hash;
+    console.log(hash)
+
+    if (hash == "#ticketcar"){
+      vizualize("bitbucket", "myvizir", "ui-ticketcar", "apresentacao")
+    } else if (hash == "#onmove"){
+      vizualize("bitbucket", "myvizir", "ui-onmove", "apresentacao/wireframes")
+    }
+
 });
