@@ -100,9 +100,11 @@ $(function(){
     console.log(hash)
 
     if (hash == "#ticketcar"){
-      vizualize("bitbucket", "myvizir", "ui-ticketcar", "apresentacao")
+      vizualize("bitbucket", "myvizir", "ui-ticketcar", "apresentacao/staging")
+    } else if (hash == "#ticketcar-dev"){
+      vizualize("bitbucket", "myvizir", "ui-onmove", "apresentacao/development")
     } else if (hash == "#onmove"){
-      vizualize("bitbucket", "myvizir", "ui-onmove", "apresentacao/wireframes")
+      vizualize("bitbucket", "myvizir", "ui-onmove", "apresentacao/layout")
     }
 
 });
