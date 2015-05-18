@@ -102,7 +102,7 @@ $(function(){
     if (hash == "#ticketcar"){
       vizualize("bitbucket", "myvizir", "ui-ticketcar", "apresentacao/staging")
     } else if (hash == "#ticketcar-dev"){
-      vizualize("bitbucket", "myvizir", "ui-onmove", "apresentacao/development")
+      vizualize("bitbucket", "myvizir", "ui-ticketcar", "apresentacao/development")
     } else if (hash == "#onmove"){
       vizualize("bitbucket", "myvizir", "ui-onmove", "apresentacao/layout")
     }
