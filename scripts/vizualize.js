@@ -92,10 +92,6 @@ $(function(){
       return false
     }
 
-    //vizualize("github", "vitormargis", "vizualize", "presenter/ossos")
-    //vizualize("bitbucket", "myvizir", "ui-onmove", "apresentacao/wireframes")
-
-
     var hash = window.location.hash;
     console.log(hash)
 
@@ -105,6 +101,9 @@ $(function(){
       vizualize("bitbucket", "myvizir", "ui-ticketcar", "apresentacao/development")
     } else if (hash == "#onmove"){
       vizualize("bitbucket", "myvizir", "ui-onmove", "apresentacao/layout")
+    } else if (hash == "#portal-estabelecimentos"){
+      vizualize("github", "vitormargis", "vizualize", "presenter/portal-estabelecimentos")
     }
+
 
 });
