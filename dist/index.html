@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="vizualize" ng-controller="AppController as appController">
+<head>
+  <meta charset="UTF-8">
+  <title>Vizualize</title>
+  <link rel='stylesheet' href='styles/styles.css' media='all' />
+  <script type='text/javascript' src='./app.js'></script>
+</head>
+<body ng-keydown="appController.nav($event)">
+
+<div ui-view></div>
+
+</body>
+</html>
