@@ -1,0 +1,25 @@
+<div ng-class="{'is-collapsed': presentationController.isCollapsed}">
+  <a class="sidebar-toggler" ng-click="presentationController.toggleSidebar()">Toggle Sidebar</a>
+
+  <a class="prev" ng-click="presentationController.prev()"></a>
+  <a class="next" ng-click="presentationController.next()"></a>
+
+  <nav class="presenter-nav">
+    <ul>
+      <li ng-repeat="(key, item) in presentationController.presentation"
+          ng-class="{'is-active': key === presentationController.isActive}"
+          ng-click="presentationController.goToSlide(key)">
+          <img ng-if="item.download_url" ng-src="{{item.download_url}}"/>
+          <img ng-if="item.path" ng-src="{{presentationController.bitbucketUrl+item.path}}"/>
+      </li>
+    </ul>
+  </nav>
+
+  <ul class="presenter">
+    <li ng-repeat="(key, item) in presentationController.presentation"
+        ng-class="{'is-active': key === presentationController.isActive}">
+        <img ng-if="item.download_url" ng-src="{{item.download_url}}"/>
+        <img ng-if="item.path" ng-src="{{presentationController.bitbucketUrl+item.path}}"/>
+    </li>
+  </ul>
+</div>

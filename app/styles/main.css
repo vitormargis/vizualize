@@ -1,0 +1,151 @@
+*{
+  font-family: sans-serif;
+}
+
+html{
+  height: 100%;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  min=height: 100%;
+}
+
+.logo {
+    width: 400px;
+    margin: 50px auto -70px;
+    position: relative;
+    z-index:  2;
+    left: -8px;
+}
+
+.presenter{
+  margin: 0;
+  padding: 0;
+  width: 90%;
+  float: right;
+  transition: width 0.3s ease;
+}
+
+.is-collapsed .presenter{
+  width: 100%;
+}
+
+.presenter li{
+  cursor: pointer;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  top:-20000px;
+  -webkit-transition: opacity 0.3s ease;
+  -o-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+}
+
+.presenter li.is-active{
+  opacity: 1;
+  top: 0px;
+}
+
+.presenter li img{
+  width: 100%;
+  position: absolute;
+
+}
+
+.presenter li.is-active img{
+  width: 100%;
+}
+
+.next, .prev{
+  display: block;
+  position: fixed;
+  height: 100%;
+  width: 45%;
+  background: rgba(0, 0, 0, 0);
+  z-index: 1;
+  top: 0;
+  cursor: pointer;
+}
+
+.next{
+  right: 0;
+}
+
+.prev{
+  left: 10%;
+}
+
+.sidebar-toggler{
+  position: fixed;
+  z-index: 99;
+  text-indent: -9999px;
+  display: block;
+  height: 50px;
+  width: 20px;
+  background-color: #fff;
+  left: 10%;
+  top: 50%;
+  margin-top: -35px;
+  transition: left 0.3s ease;
+  border-radius: 5px;
+  margin-left: -5px;
+  cursor: pointer;
+}
+
+.is-collapsed .sidebar-toggler{
+  left: 0%;
+}
+
+.presenter-nav{
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  width: 10%;
+  height: 100%;
+  overflow: scroll;
+  left: 0;
+  border-right: 1px solid #333;
+  box-shadow: 0px 0px 100px rgba(0, 0, 0, 1);
+  z-index: 9;
+  transition: left 0.3s ease;
+}
+
+.is-collapsed .presenter-nav{
+  left: -10%;
+}
+
+.presenter-nav ul{
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+
+.presenter-nav li{
+  list-style: none;
+  position: relative;
+  float: left;
+  margin: 0;
+  padding: 0;
+  opacity: .5;
+  cursor: pointer;
+}
+
+.presenter-nav li.is-active{
+  opacity: 1;
+}
+
+.presenter-nav img{
+  width: 80%;
+  margin: 5% 10%;
+  padding: 0;
+  float: left;
+  border-bottom: 1px solid #fff;
+}

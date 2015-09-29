@@ -1,0 +1,20 @@
+{
+  "name": "vizualize",
+  "version": "0.0.1",
+  "authors": [
+    "Vitor Margis <vitor@margis.com.br>"
+  ],
+  "private": true,
+  "license": "UNLICENSED",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor"
+  ],
+  "dependencies": {
+    "angular": "1.4.5",
+    "lodash": "~3.10.1",
+    "angular-ui-router": "~0.2.15"
+  }
+}
