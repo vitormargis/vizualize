@@ -1,60 +1,59 @@
 angular.module('vizualize').controller('PresentationController', function($state, $stateParams, AppServices) {
 
-  var controller = this;
+  var vm = this;
 
   var init = function() {
-    if ($stateParams.source) controller.source = $stateParams.source;
-    if ($stateParams.user) controller.user = $stateParams.user;
-    if ($stateParams.repo) controller.repo = $stateParams.repo;
-    if ($stateParams.path) controller.path = $stateParams.path.replace('+', '/');
-
-    if (controller.source === 'bitbucket') getBitbucketData();
-    if (controller.source === 'github') getGithubData();
+    if ($stateParams.source) vm.source = $stateParams.source;
+    if ($stateParams.user) vm.user = $stateParams.user;
+    if ($stateParams.repo) vm.repo = $stateParams.repo;
+    if ($stateParams.path) vm.path = $stateParams.path.replace('+', '/');
+    if (vm.source === 'bitbucket') getBitbucketData();
+    if (vm.source === 'github') getGithubData();
 
   };
 
   var getGithubData = function() {
-    AppServices.github(controller.user, controller.repo, controller.path).then(function(result) {
-      controller.presentation = result;
-      controller.isActive = 0;
-      if ($stateParams.page) controller.isActive = parseFloat($stateParams.page);
+    AppServices.github(vm.user, vm.repo, vm.path).then(function(result) {
+      vm.presentation = result;
+      vm.isActive = 0;
+      if ($stateParams.page) vm.isActive = parseFloat($stateParams.page);
     }).catch(function(result) {
     });
   };
 
   var getBitbucketData = function() {
-    AppServices.bitbucket(controller.user, controller.repo, controller.path).then(function(result) {
-      controller.presentation = result.files;
-      controller.bitbucketUrl = 'https://bitbucket.org/' + controller.user + '/' + controller.repo + '/raw/master/';
-      controller.isActive = 0;
-      if ($stateParams.page) controller.isActive = parseFloat($stateParams.page);
+    AppServices.bitbucket(vm.user, vm.repo, vm.path).then(function(result) {
+      vm.presentation = result.files;
+      vm.bitbucketUrl = 'https://bitbucket.org/' + vm.user + '/' + vm.repo + '/raw/master/';
+      vm.isActive = 0;
+      if ($stateParams.page) vm.isActive = parseFloat($stateParams.page);
     }).catch(function(result) {
     });
   };
 
-  controller.next = function() {
-    if (controller.presentation.length - 1 > controller.isActive) {
-      controller.goToSlide(controller.isActive + 1);
+  vm.next = function() {
+    if (vm.presentation.length - 1 > vm.isActive) {
+      vm.goToSlide(vm.isActive + 1);
     }
   };
 
-  controller.prev = function() {
-    if (controller.isActive > 0) {
-      controller.goToSlide(controller.isActive - 1);
+  vm.prev = function() {
+    if (vm.isActive > 0) {
+      vm.goToSlide(vm.isActive - 1);
     }
   };
 
-  controller.goToSlide = function(key) {
-    controller.isActive = key;
-    controller.path = controller.path.replace('/', '+');
-    $state.go('presentation', { user: controller.user, repo: controller.repo, path: controller.path, page: key }, { notify: false });
+  vm.goToSlide = function(key) {
+    vm.isActive = key;
+    vm.path = vm.path.replace('/', '+');
+    $state.go('presentation', { user: vm.user, repo: vm.repo, path: vm.path, page: key }, { notify: false });
   };
 
-  controller.toggleSidebar = function() {
-    if (!controller.isCollapsed) {
-      controller.isCollapsed = true;
+  vm.toggleSidebar = function() {
+    if (!vm.isCollapsed) {
+      vm.isCollapsed = true;
     } else {
-      controller.isCollapsed = false;
+      vm.isCollapsed = false;
     }
   };
 

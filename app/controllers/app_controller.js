@@ -1,6 +1,6 @@
 angular.module('vizualize').controller('AppController', function($state, $stateParams, AppServices) {
 
-  var controller = this;
+  var vm = this;
 
   var init = function() {
 
