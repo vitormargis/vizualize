@@ -10,8 +10,7 @@
           ng-class="{'is-active': key === presentationController.isActive}"
           ng-click="presentationController.goToSlide(key)"
           ng-show="presentationController.isImage(item.download_url)">
-          <img ng-if="presentationController.source === 'github'" ng-src="{{item.download_url}}"/>
-          <img ng-if="presentationController.source === 'bitbucket'" ng-src="{{presentationController.bitbucketUrl+item.path}}"/>
+          <img ng-src="{{item.download_url}}"/>
       </li>
     </ul>
   </nav>
@@ -19,8 +18,7 @@
   <ul class="presenter presenter-fixed-size">
     <li ng-repeat="(key, item) in presentationController.presentation"
         ng-class="{'is-active': key === presentationController.isActive}">
-        <img ng-if="presentationController.source === 'github'" ng-src="{{item.download_url}}"/>
-        <img ng-if="presentationController.source === 'bitbucket'" ng-src="{{presentationController.bitbucketUrl+item.path}}"/>
+        <img ng-src="{{item.download_url}}"/>
     </li>
   </ul>
 </div>

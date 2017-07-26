@@ -1,61 +1,84 @@
-angular.module('vizualize').controller('PresentationController', function($state, $stateParams, AppServices) {
+(function() {
+  'use strict';
 
-  var vm = this;
+  angular.module('vizualize').controller('PresentationController', function($state, $stateParams, AppServices) {
 
-  var init = function() {
-    if ($stateParams.source) vm.source = $stateParams.source;
-    if ($stateParams.user) vm.user = $stateParams.user;
-    if ($stateParams.repo) vm.repo = $stateParams.repo;
-    if ($stateParams.path) vm.path = $stateParams.path.replace('+', '/');
-    if (vm.source === 'bitbucket') getBitbucketData();
-    if (vm.source === 'github') getGithubData();
+    var vm = this;
 
-  };
+    var init = function() {
+      if ($stateParams.user) vm.user = $stateParams.user;
+      if ($stateParams.repo) vm.repo = $stateParams.repo;
+      if ($stateParams.path) vm.path = $stateParams.path.replace('+', '/');
 
-  var getGithubData = function() {
-    AppServices.github(vm.user, vm.repo, vm.path).then(function(result) {
-      vm.presentation = result;
-      vm.isActive = 0;
-      if ($stateParams.page) vm.isActive = parseFloat($stateParams.page);
-    }).catch(function(result) {
-    });
-  };
+      if (!$stateParams.path) {
+        AppServices.configFile(vm.user + '/' + vm.repo).then(function(result) {
+          $state.go('presentationWithPath', {
+            user: vm.user,
+            repo: vm.repo,
+            path: result.path,
+            page: 0
+          });
+        });
 
-  var getBitbucketData = function() {
-    AppServices.bitbucket(vm.user, vm.repo, vm.path).then(function(result) {
-      vm.presentation = result.files;
-      vm.bitbucketUrl = 'https://bitbucket.org/' + vm.user + '/' + vm.repo + '/raw/master/';
-      vm.isActive = 0;
-      if ($stateParams.page) vm.isActive = parseFloat($stateParams.page);
-    }).catch(function(result) {
-    });
-  };
+        return
+      }
 
-  vm.next = function() {
-    if (vm.presentation.length - 1 > vm.isActive) {
-      vm.goToSlide(vm.isActive + 1);
+      getGithubData(vm.user, vm.repo, vm.path);
+    };
+
+    var getGithubData = function(user, repo, path) {
+      AppServices.github(user, repo, path).then(function(result) {
+        vm.presentation = result;
+        vm.isActive = 0;
+        if ($stateParams.page) vm.isActive = parseFloat($stateParams.page);
+      }).catch(function(result) {
+        console.log(result);
+      });
+    };
+
+    vm.next = function() {
+      if (vm.presentation.length - 1 > vm.isActive) {
+        vm.goToSlide(vm.isActive + 1);
+      }
+    };
+
+    vm.prev = function() {
+      if (vm.isActive > 0) {
+        vm.goToSlide(vm.isActive - 1);
+      }
+    };
+
+    vm.goToSlide = function(key) {
+      vm.isActive = key;
+      vm.path = vm.path.replace('/', '+');
+      $state.go('presentationWithPath', {
+        user: vm.user,
+        repo: vm.repo,
+        path: vm.path,
+        page: key
+      }, {
+        notify: false
+      });
+    };
+
+    vm.toggleSidebar = function() {
+      return vm.isCollapsed = !vm.isCollapsed;
+    };
+
+    vm.keyboardNavigation = function($event) {
+      console.log($event.keyCode);
+      if ($event.keyCode === 39) {
+        vm.next();
+      } else if ($event.keyCode === 37) {
+        vm.prev();
+      }
+    };
+
+    vm.isImage = function(url) {
+      var fileExtension = url.substr(url.length - 3);
+      return fileExtension === 'png' || fileExtension === 'jpg'
     }
-  };
 
-  vm.prev = function() {
-    if (vm.isActive > 0) {
-      vm.goToSlide(vm.isActive - 1);
-    }
-  };
-
-  vm.goToSlide = function(key) {
-    vm.isActive = key;
-    vm.path = vm.path.replace('/', '+');
-    $state.go('presentation', { user: vm.user, repo: vm.repo, path: vm.path, page: key }, { notify: false });
-  };
-
-  vm.toggleSidebar = function() {
-    if (!vm.isCollapsed) {
-      vm.isCollapsed = true;
-    } else {
-      vm.isCollapsed = false;
-    }
-  };
-
-  init();
-});
+    init();
+  });
+})();

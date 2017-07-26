@@ -28810,19 +28810,19 @@ $provide.value("$locale", {
     $stateProvider
       .state('home', {
         url: '',
-        templateUrl: '/templates/index.html',
+        templateUrl: '/templates/presentation.html',
         controller: 'PresentationController',
         controllerAs: 'presentationController',
       })
       .state('presentationWithConfig', {
-        url: '/:source/:user/:repo',
-        templateUrl: '/templates/index.html',
+        url: '/:user/:repo',
+        templateUrl: '/templates/presentation.html',
         controller: 'PresentationController',
         controllerAs: 'presentationController',
       })
       .state('presentationWithPath', {
-        url: '/:source/:user/:repo/:path/:page',
-        templateUrl: '/templates/index.html',
+        url: '/:user/:repo/:path/:page',
+        templateUrl: '/templates/presentation.html',
         controller: 'PresentationController',
         controllerAs: 'presentationController',
       });
@@ -28855,48 +28855,29 @@ $provide.value("$locale", {
     var vm = this;
 
     var init = function() {
-      if ($stateParams.source) vm.source = $stateParams.source;
-      if ($stateParams.user) vm.user = $stateParams.user | 'vitormargis';
-      if ($stateParams.repo) vm.repo = $stateParams.repo | 'vizualize';
+      if ($stateParams.user) vm.user = $stateParams.user;
+      if ($stateParams.repo) vm.repo = $stateParams.repo;
       if ($stateParams.path) vm.path = $stateParams.path.replace('+', '/');
 
-      vm.ttt = 'aaaaaa'
-
-      if (!$stateParams.path){
-        vm.path = 'presenter/layouts'.replace('/', '+');
-        $state.go('presentationWithPath', {
-          source: vm.source,
-          user: vm.user,
-          repo: vm.repo,
-          path: vm.path,
-          page: 0
+      if (!$stateParams.path) {
+        AppServices.configFile(vm.user + '/' + vm.repo).then(function(result) {
+          $state.go('presentationWithPath', {
+            user: vm.user,
+            repo: vm.repo,
+            path: result.path,
+            page: 0
+          });
         });
+
         return
       }
 
-      AppServices.configFile(vm.source, vm.user + '/' + vm.repo).then(function(result) {
-        console.log(result);
-      });
-
-      if (vm.source === 'bitbucket') getBitbucketData();
-      if (vm.source === 'github') getGithubData();
-
+      getGithubData(vm.user, vm.repo, vm.path);
     };
 
-    var getGithubData = function() {
-      AppServices.github(vm.user, vm.repo, vm.path).then(function(result) {
+    var getGithubData = function(user, repo, path) {
+      AppServices.github(user, repo, path).then(function(result) {
         vm.presentation = result;
-        vm.isActive = 0;
-        if ($stateParams.page) vm.isActive = parseFloat($stateParams.page);
-      }).catch(function(result) {
-        console.log(result);
-      });
-    };
-
-    var getBitbucketData = function() {
-      AppServices.bitbucket(vm.user, vm.repo, vm.path).then(function(result) {
-        vm.presentation = result.files;
-        vm.bitbucketUrl = 'https://bitbucket.org/' + vm.user + '/' + vm.repo + '/raw/master/';
         vm.isActive = 0;
         if ($stateParams.page) vm.isActive = parseFloat($stateParams.page);
       }).catch(function(result) {
@@ -28920,7 +28901,6 @@ $provide.value("$locale", {
       vm.isActive = key;
       vm.path = vm.path.replace('/', '+');
       $state.go('presentationWithPath', {
-        source: vm.source,
         user: vm.user,
         repo: vm.repo,
         path: vm.path,
@@ -28957,31 +28937,14 @@ $provide.value("$locale", {
 
   angular.module('vizualize').service('AppServices', function($http) {
     this.github = function(user, repo, path) {
-      var url = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/' + path;
+      var url = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/' + path + '?access_token=804ca13a630d73dcf5e5ebdaadc9b62476db80eb';
       return $http.get(url).then(function(result) {
         return result.data;
       });
     };
 
-    this.bitbucket = function(user, repo, path) {
-      var url = 'https://api.bitbucket.org/1.0/repositories/' + user + '/' + repo + '/src/master/' + path + '?callback=?';
-      return $http.get(url).then(function(result) {
-        return result.data;
-      });
-    };
-
-    this.configFile = function(origin, path) {
-
-      var url;
-      var githubUrl = 'https://raw.githubusercontent.com/' + path + '/master/.vizualize';
-      var bitBucketUrl = 'https://api.bitbucket.org/1.0/repositories/' + path + '/raw/master/.vizualize?callback=?';
-
-      if(origin === 'github'){
-        url = githubUrl;
-      } else if (origin === 'bitbucket'){
-        url = bitBucketUrl;
-      }
-
+    this.configFile = function(path) {
+      var url = 'https://raw.githubusercontent.com/' + path + '/master/.vizualize';
       return $http.get(url).then(function(result) {
         return result.data
       });

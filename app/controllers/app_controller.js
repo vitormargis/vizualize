@@ -1,11 +1,6 @@
-angular.module('vizualize').controller('AppController', function($state, $stateParams, AppServices) {
+(function() {
+  'use strict';
 
-  var vm = this;
+  angular.module('vizualize').controller('AppController', function() {});
 
-  var init = function() {
-
-  };
-
-  init();
-
-});
+})();

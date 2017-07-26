@@ -46,7 +46,7 @@ gulp.task('default', ['start']);
 
 gulp.task('scripts', function() {
   return gulp.src(scriptsPath)
-    .pipe(concat('app.js'))
+    .pipe(concat('index.js'))
     .pipe(gulp.dest('./dist/'))
     .pipe(reload({ stream: true }))
 });

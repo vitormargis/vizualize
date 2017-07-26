@@ -11,6 +11,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background: #555;
+  overflow: hidden;
 }
 
 .logo {
@@ -34,18 +36,36 @@ body {
 }
 
 .presenter li {
-  position: relative;
+  display: table;
+  position: absolute;
   top: -20000px;
   width: 100%;
-  margin: 0;
+  height: 100%;
   margin: 0 auto;
   padding: 0;
   list-style: none;
   cursor: pointer;
+  text-align: center;
   -webkit-transition: opacity .3s ease;
-       -o-transition: opacity .3s ease;
-          transition: opacity .3s ease;
+  -o-transition: opacity .3s ease;
+  transition: opacity .3s ease;
   opacity: 0;
+}
+
+.presenter li:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: 0; /* Adjusts for spacing */
+}
+
+.presenter.presenter-fixed-size li img{
+  width: 700px;
+}
+
+.presenter.presenter-auto-size li.presenter-auto-size img{
+  width: auto;
 }
 
 .presenter li.is-active {
@@ -54,11 +74,9 @@ body {
 }
 
 .presenter li img {
-  position: absolute;
-  width: 100%;
-}
-
-.presenter li.is-active img {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
   width: 100%;
 }
 
@@ -88,15 +106,18 @@ body {
   top: 50%;
   left: 10%;
   display: block;
-  width: 20px;
+  width: 15px;
   height: 50px;
   margin-top: -35px;
-  margin-left: -5px;
+  margin-left: 0px;
   cursor: pointer;
   transition: left .3s ease;
   text-indent: -9999px;
-  border-radius: 5px;
-  background-color: #fff;
+  border-radius: 1px 5px 5px 1px;
+  background-color: #353535;
+  border: 1px solid #000;
+  box-shadow: inset -1px 0px 1px 0px rgba(255, 255, 255, .15);
+  border-left-color: #313131;
 }
 
 .is-collapsed .sidebar-toggler {
@@ -113,8 +134,9 @@ body {
   margin: 0;
   padding: 0;
   transition: left .3s ease;
-  border-right: 1px solid #333;
-  box-shadow: 0 0 100px rgba(0, 0, 0, 1);
+  border-right: 1px solid #222;
+  box-shadow: 0 0 80px rgba(0, 0, 0, .75), inset 0 0 1px rgba(255, 255, 255, .25);
+  background: #3c3c3c;
 }
 
 .is-collapsed .presenter-nav {
@@ -135,10 +157,12 @@ body {
   list-style: none;
   cursor: pointer;
   opacity: .5;
+  filter: grayscale(100%);
 }
 
 .presenter-nav li.is-active {
   opacity: 1;
+  filter: grayscale(0%);
 }
 
 .presenter-nav img {
@@ -146,5 +170,6 @@ body {
   width: 80%;
   margin: 5% 10%;
   padding: 0;
-  border-bottom: 1px solid #fff;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 3px;
 }
