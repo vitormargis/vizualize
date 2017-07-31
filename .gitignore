@@ -1,2 +1,3 @@
 node_modules
 vendors
+app/config.js
