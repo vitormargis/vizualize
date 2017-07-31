@@ -44,7 +44,10 @@ gulp.task('start', ['scripts', 'styles', 'index', 'templates', 'images'], functi
   gulp.watch(imagesPath, ['images'])
 })
 
-gulp.task('deploy', ['scripts', 'styles', 'index', 'templates', 'images'])
+gulp.task('deploy', ['scripts', 'styles', 'index', 'templates', 'images'], function() {
+  return gulp.src('_redirects')
+    .pipe(gulp.dest('./dist/'))
+});
 
 gulp.task('default', ['start']);
 
