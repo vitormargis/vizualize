@@ -1,5 +1,5 @@
 # vizualize.js
-Simple presentation tool using github repositoris
+Simple presentation tool using github repositoris.
 To start it, just copy `config_example.js` to the `app` folder under the name `config.js`
 Then `npm install` & `npm start`
 
