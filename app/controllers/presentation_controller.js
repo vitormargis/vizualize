@@ -6,10 +6,6 @@
     var vm = this;
 
     var init = function() {
-      $window.onfocus = function(){
-        console.log($window);
-      }
-
       if ($stateParams.user) vm.user = $stateParams.user;
       if ($stateParams.repo) vm.repo = $stateParams.repo;
       if ($stateParams.path) vm.path = $stateParams.path.replace('+', '/');
@@ -36,7 +32,7 @@
         vm.isActive = 0;
         if ($stateParams.page) vm.isActive = parseFloat($stateParams.page);
       }).catch(function(result) {
-        console.log(result);
+        alet(result);
       });
     };
 
@@ -86,13 +82,10 @@
     };
 
     vm.keyUp = function($event) {
-      console.log($event.keyCode);
       if ($event.keyCode === 17) {
         vm.ctrl = false;
       }
     }
-
-
 
     vm.isImage = function(url) {
       var fileExtension = url.substr(url.length - 3);
