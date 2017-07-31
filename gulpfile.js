@@ -1,4 +1,4 @@
-var env = require('dotenv')
+require('dotenv').config()
 var gulp = require('gulp')
 var concat = require('gulp-concat')
 var replace = require('gulp-string-replace');
@@ -58,7 +58,7 @@ gulp.task('scripts', function() {
 gulp.task('config', ['scripts'], function() {
   return gulp.src('./config_example.js')
     .pipe(concat('config.js'))
-    .pipe(replace(/yourAccessToken/g, '321654987'))
+    .pipe(replace(/yourAccessToken/g, process.env.access_token,))
     .pipe(gulp.dest('./app/'))
     .pipe(reload({ stream: true }))
 });

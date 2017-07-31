@@ -2,3 +2,4 @@ node_modules
 vendors
 dist
 app/config.js
+.env
