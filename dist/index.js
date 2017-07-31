@@ -28798,8 +28798,24 @@ $provide.value("$locale", {
     'ui.router',
   ]);
 
-  angular.module('vizualize').constant('SiteConfig', {
-    title: 'Vizualize'
+angular.module('vizualize').directive('autofocus', ['$timeout', function($timeout) {
+  return {
+    restrict: 'A',
+    link : function($scope, $element) {
+      $timeout(function() {
+        $element[0].focus();
+      });
+    }
+  }
+}]);
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('vizualize').constant('config', {
+    title: 'Vizualize',
+    access_token: 'f5ed9c2c8feacfe5bf321bab7baf13bf088a4f33'
   });
 })();
 
@@ -28850,11 +28866,15 @@ $provide.value("$locale", {
 (function() {
   'use strict';
 
-  angular.module('vizualize').controller('PresentationController', function($state, $stateParams, AppServices) {
+  angular.module('vizualize').controller('PresentationController', function($window, $state, $stateParams, AppServices) {
 
     var vm = this;
 
     var init = function() {
+      $window.onfocus = function(){
+        console.log($window);
+      }
+
       if ($stateParams.user) vm.user = $stateParams.user;
       if ($stateParams.repo) vm.repo = $stateParams.repo;
       if ($stateParams.path) vm.path = $stateParams.path.replace('+', '/');
@@ -28898,6 +28918,10 @@ $provide.value("$locale", {
     };
 
     vm.goToSlide = function(key) {
+      vm.activeAlement = document.getElementsByClassName('is-active');
+      vm.presentationNav = document.getElementsByClassName('presenter-nav')
+      vm.presentationNav[0].scrollTop = vm.activeAlement[0].offsetTop - vm.activeAlement[0].scrollHeight;
+
       vm.isActive = key;
       vm.path = vm.path.replace('/', '+');
       $state.go('presentationWithPath', {
@@ -28914,14 +28938,26 @@ $provide.value("$locale", {
       return vm.isCollapsed = !vm.isCollapsed;
     };
 
-    vm.keyboardNavigation = function($event) {
-      console.log($event.keyCode);
+    vm.keyDown = function($event) {
       if ($event.keyCode === 39) {
         vm.next();
       } else if ($event.keyCode === 37) {
         vm.prev();
+      } else if ($event.keyCode === 17) {
+        vm.ctrl = true;
+      } else if ($event.keyCode === 220 && vm.ctrl) {
+        vm.toggleSidebar();
       }
     };
+
+    vm.keyUp = function($event) {
+      console.log($event.keyCode);
+      if ($event.keyCode === 17) {
+        vm.ctrl = false;
+      }
+    }
+
+
 
     vm.isImage = function(url) {
       var fileExtension = url.substr(url.length - 3);
@@ -28935,9 +28971,9 @@ $provide.value("$locale", {
 (function() {
   'use strict';
 
-  angular.module('vizualize').service('AppServices', function($http) {
+  angular.module('vizualize').service('AppServices', function($http, config) {
     this.github = function(user, repo, path) {
-      var url = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/' + path;
+      var url = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/' + path + '?access_token=' + config.access_token;
       return $http.get(url).then(function(result) {
         return result.data;
       });

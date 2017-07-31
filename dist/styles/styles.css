@@ -12,7 +12,6 @@ body {
   margin: 0;
   padding: 0;
   background: #555;
-  overflow: hidden;
 }
 
 .logo {
@@ -35,20 +34,24 @@ body {
   width: 100%;
 }
 
+.is-collapsed .presenter li {
+  width: 100%;
+}
+
 .presenter li {
   display: table;
   position: absolute;
   top: -20000px;
-  width: 100%;
+  width: 90%;
   height: 100%;
   margin: 0 auto;
   padding: 0;
   list-style: none;
   cursor: pointer;
   text-align: center;
-  -webkit-transition: opacity .3s ease;
-  -o-transition: opacity .3s ease;
-  transition: opacity .3s ease;
+  -webkit-transition: opacity .3s ease, width .3s ease;
+  -o-transition: opacity .3s ease, width .3s ease;
+  transition: opacity .3s ease, width .3s ease;
   opacity: 0;
 }
 
@@ -124,7 +127,44 @@ body {
   left: 0;
 }
 
+.presenter-config {
+  position: fixed;
+  z-index: 9;
+  left: 0;
+  overflow: scroll;
+  width: 10%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  transition: left .3s ease;
+  border-right: 1px solid #222;
+  box-shadow: 0 0 80px rgba(0, 0, 0, .75), inset 0 0 1px rgba(255, 255, 255, .25);
+  background: #3c3c3c;
+}
+
+.is-collapsed .presenter-config {
+  left: -10%;
+}
+
+.width-icon {
+  display: block;
+  margin: 10px 0 10px 10%;
+  position: relative;
+  width: 35%;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  float: left;
+  background: #555;
+  color: #333;
+  border-radius: 2px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
 .presenter-nav {
+  top: 40px;
   position: fixed;
   z-index: 9;
   left: 0;

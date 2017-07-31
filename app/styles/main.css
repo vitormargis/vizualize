@@ -12,7 +12,6 @@ body {
   margin: 0;
   padding: 0;
   background: #555;
-  overflow: hidden;
 }
 
 .logo {
@@ -35,20 +34,24 @@ body {
   width: 100%;
 }
 
+.is-collapsed .presenter li {
+  width: 100%;
+}
+
 .presenter li {
   display: table;
   position: absolute;
   top: -20000px;
-  width: 100%;
+  width: 90%;
   height: 100%;
   margin: 0 auto;
   padding: 0;
   list-style: none;
   cursor: pointer;
   text-align: center;
-  -webkit-transition: opacity .3s ease;
-  -o-transition: opacity .3s ease;
-  transition: opacity .3s ease;
+  -webkit-transition: opacity .3s ease, width .3s ease;
+  -o-transition: opacity .3s ease, width .3s ease;
+  transition: opacity .3s ease, width .3s ease;
   opacity: 0;
 }
 
