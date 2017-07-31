@@ -58,7 +58,7 @@ gulp.task('scripts', function() {
 gulp.task('config', ['scripts'], function() {
   return gulp.src('./config_example.js')
     .pipe(concat('config.js'))
-    .pipe(replace(/yourAccessToken/g, process.env.access_token,))
+    .pipe(replace(/yourAccessToken/g, process.env.access_token))
     .pipe(gulp.dest('./app/'))
     .pipe(reload({ stream: true }))
 });
