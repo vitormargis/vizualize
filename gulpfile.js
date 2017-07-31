@@ -32,7 +32,7 @@ var imagesPath = [
   appPath + '/images/*.jpg',
 ]
 
-gulp.task('start', ['config', 'styles', 'index', 'templates', 'images'], function() {
+gulp.task('start', ['scripts', 'styles', 'index', 'templates', 'images'], function() {
   browserSync.init({
     server: './dist'
   })
@@ -44,18 +44,18 @@ gulp.task('start', ['config', 'styles', 'index', 'templates', 'images'], functio
   gulp.watch(imagesPath, ['images'])
 })
 
-gulp.task('deploy', ['config', 'styles', 'index', 'templates', 'images'])
+gulp.task('deploy', ['scripts', 'styles', 'index', 'templates', 'images'])
 
 gulp.task('default', ['start']);
 
-gulp.task('scripts', function() {
+gulp.task('scripts', ['config'], function() {
   return gulp.src(scriptsPath)
     .pipe(concat('index.js'))
     .pipe(gulp.dest('./dist/'))
     .pipe(reload({ stream: true }))
 });
 
-gulp.task('config', ['scripts'], function() {
+gulp.task('config', function() {
   return gulp.src('./config_example.js')
     .pipe(concat('config.js'))
     .pipe(replace(/yourAccessToken/g, process.env.access_token))
