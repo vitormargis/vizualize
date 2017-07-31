@@ -1,5 +1,7 @@
+var env = require('dotenv')
 var gulp = require('gulp')
 var concat = require('gulp-concat')
+var replace = require('gulp-string-replace');
 var browserSync = require('browser-sync').create()
 var reload = browserSync.reload
 
@@ -30,7 +32,7 @@ var imagesPath = [
   appPath + '/images/*.jpg',
 ]
 
-gulp.task('start', ['scripts', 'styles', 'index', 'templates', 'images'], function() {
+gulp.task('start', ['config', 'styles', 'index', 'templates', 'images'], function() {
   browserSync.init({
     server: './dist'
   })
@@ -42,12 +44,22 @@ gulp.task('start', ['scripts', 'styles', 'index', 'templates', 'images'], functi
   gulp.watch(imagesPath, ['images'])
 })
 
+gulp.task('deploy', ['config', 'styles', 'index', 'templates', 'images'])
+
 gulp.task('default', ['start']);
 
 gulp.task('scripts', function() {
   return gulp.src(scriptsPath)
     .pipe(concat('index.js'))
     .pipe(gulp.dest('./dist/'))
+    .pipe(reload({ stream: true }))
+});
+
+gulp.task('config', ['scripts'], function() {
+  return gulp.src('./config_example.js')
+    .pipe(concat('config.js'))
+    .pipe(replace(/yourAccessToken/g, '321654987'))
+    .pipe(gulp.dest('./app/'))
     .pipe(reload({ stream: true }))
 });
 

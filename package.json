@@ -5,6 +5,7 @@
   "main": "",
   "scripts": {
     "install": "bower install",
+    "deploy": "gulp deploy",
     "start": "gulp"
   },
   "repository": {
@@ -17,12 +18,14 @@
     "url": ""
   },
   "homepage": "",
-  "devDependencies": {
+  "dependencies": {
     "bower": "^1.5.2",
     "browser-sync": "^2.9.6",
+    "dotenv": "^4.0.0",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-connect": "^2.2.0",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "gulp-string-replace": "^0.4.0"
   }
 }
