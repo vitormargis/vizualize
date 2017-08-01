@@ -3,6 +3,7 @@ var gulp = require('gulp')
 var concat = require('gulp-concat')
 var replace = require('gulp-string-replace');
 var browserSync = require('browser-sync').create()
+var historyApiFallback = require('connect-history-api-fallback');
 var reload = browserSync.reload
 
 var appPath = './app'
@@ -34,7 +35,10 @@ var imagesPath = [
 
 gulp.task('start', ['scripts', 'styles', 'index', 'templates', 'images'], function() {
   browserSync.init({
-    server: './dist'
+    server: {
+      baseDir: './dist',
+      middleware: [ historyApiFallback() ]
+    }
   })
 
   gulp.watch(scriptsPath, ['scripts'])
