@@ -1,14 +1,14 @@
 (function() {
   'use strict';
 
-  angular.module('vizualize').controller('PresentationController', function($window, $state, $stateParams, AppServices) {
+  angular.module('vizualize').controller('PresentationController', function($base64, $http, $window, $state, $stateParams, AppServices) {
 
     var vm = this;
 
     var init = function() {
       if ($stateParams.user) vm.user = $stateParams.user;
       if ($stateParams.repo) vm.repo = $stateParams.repo;
-      if ($stateParams.path) vm.path = $stateParams.path.replace('+', '/');
+      if ($stateParams.path) vm.path = $stateParams.path.replace(/\+/g, '/');
 
       if (!$stateParams.path) {
         AppServices.configFile(vm.user + '/' + vm.repo).then(function(result) {
@@ -28,11 +28,19 @@
 
     var getGithubData = function(user, repo, path) {
       AppServices.github(user, repo, path).then(function(result) {
-        vm.presentation = result;
+        vm.presentation = filterImages(result);
+        formatSVG(result)
         vm.isActive = 0;
         if ($stateParams.page) vm.isActive = parseFloat($stateParams.page);
       }).catch(function(result) {
-        alet(result);
+        alert(result);
+      });
+    };
+
+    var filterImages = function(result) {
+      return result.filter(function(item) {
+        var url = item.download_url;
+        return url.includes('.png') || url.includes('.jpg') || url.includes('.gif') || url.includes('.svg');
       });
     };
 
@@ -87,9 +95,14 @@
       }
     }
 
-    vm.isImage = function(url) {
-      var fileExtension = url.substr(url.length - 3);
-      return fileExtension === 'png' || fileExtension === 'jpg'
+    var formatSVG = function(result) {
+      vm.presentation.filter(function(item) {
+        $http.get(item.download_url).then(function(svg) {
+          if (item.download_url.includes('svg')) {
+            item.download_url = "data:image/svg+xml;base64," + $base64.encode(svg.data);
+          }
+        });
+      });
     }
 
     init();

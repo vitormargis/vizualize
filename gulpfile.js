@@ -11,6 +11,7 @@ var scriptsPath = [
   './vendors/lodash/lodash.min.js',
   './vendors/angular/angular.js',
   './vendors/angular-ui-router/release/angular-ui-router.min.js',
+  './vendors/angular-base64/angular-base64.min.js',
   appPath + '/*.js',
   appPath + '/**/*.js'
 ]

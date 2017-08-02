@@ -3,6 +3,7 @@
 
   angular.module('vizualize', [
     'ui.router',
+    'base64'
   ]);
 
 angular.module('vizualize').directive('autofocus', ['$timeout', function($timeout) {
