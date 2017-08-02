@@ -1,3 +1,14 @@
 <div autofocus ng-class="{'is-collapsed': homeController.isCollapsed}" tabindex="0" ng-keydown="presentationController.keyDown($event)" ng-keyup="presentationController.keyUp($event)">
-
+  <form class="vizualize-form" ng-submit="homeController.vizualize()">
+    <label>user</label>
+    <input type=text
+      ng-model="homeController.user" class="input-text" />
+    <label>repo</label>
+    <input type=text
+      ng-model="homeController.repo" class="input-text" />
+    <label>path</label>
+    <input type=text
+      ng-model="homeController.path" class="input-text" />
+    <button>Submit</button>
+  </form>
 </div>

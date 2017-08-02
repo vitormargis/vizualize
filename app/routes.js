@@ -7,7 +7,7 @@
 
     $stateProvider
       .state('home', {
-        url: '',
+        url: '/',
         templateUrl: '/templates/home.html',
         controller: 'HomeController',
         controllerAs: 'homeController',
