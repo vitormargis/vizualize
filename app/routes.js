@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('vizualize').config(function($stateProvider, $urlRouterProvider, $locationProvider ) {
-    $urlRouterProvider.otherwise('');
+    $urlRouterProvider.otherwise('/');
     $locationProvider.html5Mode(true);
 
     $stateProvider
@@ -13,13 +13,19 @@
         controllerAs: 'homeController',
       })
       .state('presentationWithConfig', {
-        url: '/:user/:repo',
+        url: '/app/:user/:repo',
         templateUrl: '/templates/presentation.html',
         controller: 'PresentationController',
         controllerAs: 'presentationController',
       })
       .state('presentationWithPath', {
-        url: '/:user/:repo/:path/:page',
+        url: '/app/:user/:repo/:path/:page',
+        templateUrl: '/templates/presentation.html',
+        controller: 'PresentationController',
+        controllerAs: 'presentationController',
+      })
+      .state('presentationWithPathWhitoutPage', {
+        url: '/app/:user/:repo/:path',
         templateUrl: '/templates/presentation.html',
         controller: 'PresentationController',
         controllerAs: 'presentationController',

@@ -10,13 +10,22 @@
       if ($stateParams.repo) vm.repo = $stateParams.repo;
       if ($stateParams.path) vm.path = $stateParams.path.replace(/\+/g, '/');
 
+      if (!$stateParams.page) {
+        $state.go('presentationWithPath', {
+          user: vm.user,
+          repo: vm.repo,
+          path: vm.path,
+          page: 1
+        });
+      }
+
       if (!$stateParams.path) {
         AppServices.configFile(vm.user + '/' + vm.repo).then(function(result) {
           $state.go('presentationWithPath', {
             user: vm.user,
             repo: vm.repo,
             path: result.path,
-            page: 0
+            page: 1
           });
         });
 
@@ -30,7 +39,7 @@
       AppServices.github(user, repo, path).then(function(result) {
         vm.presentation = filterImages(result);
         formatSVG(result)
-        vm.isActive = 0;
+        vm.isActive = 1;
         if ($stateParams.page) vm.isActive = parseFloat($stateParams.page);
       }).catch(function(result) {
         alert(result);
@@ -44,22 +53,25 @@
       });
     };
 
-    vm.next = function() {
-      if (vm.presentation.length - 1 > vm.isActive) {
-        vm.goToSlide(vm.isActive + 1);
+    vm.next = function(keyboard) {
+      if (vm.presentation.length> vm.isActive) {
+        vm.goToSlide(vm.isActive + 1, keyboard);
       }
     };
 
-    vm.prev = function() {
+    vm.prev = function(keyboard) {
       if (vm.isActive > 0) {
-        vm.goToSlide(vm.isActive - 1);
+        vm.goToSlide(vm.isActive - 1, keyboard);
       }
     };
 
-    vm.goToSlide = function(key) {
-      vm.activeAlement = document.getElementsByClassName('is-active');
-      vm.presentationNav = document.getElementsByClassName('presenter-nav')
-      vm.presentationNav[0].scrollTop = vm.activeAlement[0].offsetTop - vm.activeAlement[0].scrollHeight;
+    vm.goToSlide = function(key, scrollFollow) {
+      if (key === 0) return;
+
+      vm.activeAlement = document.getElementsByClassName('is-active')[0];
+      vm.presentationNav = document.getElementsByClassName('presenter-nav')[0];
+      if (scrollFollow)
+        vm.presentationNav.scrollTop = vm.activeAlement.offsetTop - vm.activeAlement.scrollHeight;
 
       vm.isActive = key;
       vm.path = vm.path.replace('/', '+');
@@ -79,9 +91,9 @@
 
     vm.keyDown = function($event) {
       if ($event.keyCode === 39) {
-        vm.next();
+        vm.next('scrollFollow');
       } else if ($event.keyCode === 37) {
-        vm.prev();
+        vm.prev('scrollFollow');
       } else if ($event.keyCode === 17) {
         vm.ctrl = true;
       } else if ($event.keyCode === 220 && vm.ctrl) {

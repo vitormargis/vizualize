@@ -91,22 +91,20 @@ body {
 
 .next,
 .prev {
-  position: fixed;
+  position: relative;
   z-index: 1;
-  top: 0;
+  top: 12px;
   display: block;
-  width: 45%;
-  height: 100%;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
-  background: rgba(0, 0, 0, 0);
+  background: #000;
+  float: left;
+  margin: 0 0 0 5%;
 }
 
 .next {
-  right: 0;
-}
-
-.prev {
-  left: 10%;
+  right: -9%;
 }
 
 .sidebar-toggler {

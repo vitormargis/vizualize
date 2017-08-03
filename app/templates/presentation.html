@@ -1,10 +1,11 @@
 <div autofocus ng-class="{'is-collapsed': presentationController.isCollapsed}" tabindex="0" ng-keydown="presentationController.keyDown($event)" ng-keyup="presentationController.keyUp($event)">
   <a class="sidebar-toggler" ng-click="presentationController.toggleSidebar()">Toggle Sidebar</a>
 
-  <a class="prev" ng-click="presentationController.prev()"></a>
-  <a class="next" ng-click="presentationController.next()"></a>
-
   <nav class="presenter-config">
+    <div class="arrow-nav">
+      <a class="next" ng-click="presentationController.next('scrollFollow')"></a>
+      <a class="prev" ng-click="presentationController.prev('scrollFollow')"></a>
+    </div>
     <div class="config-bar">
       <a ng-click="presentationController.viewMode = 'full'"
          class="width-icon full-width">full</a>
@@ -16,8 +17,8 @@
   <nav class="presenter-nav">
     <ul>
       <li ng-repeat="(key, item) in presentationController.presentation"
-          ng-class="{'is-active': key === presentationController.isActive}"
-          ng-click="presentationController.goToSlide(key)">
+          ng-class="{'is-active': key + 1 === presentationController.isActive}"
+          ng-click="presentationController.goToSlide(key + 1)">
           <img ng-src="{{item.download_url}}"/>
       </li>
     </ul>
@@ -26,7 +27,7 @@
   <ul class="presenter"
       ng-class="presentationController.viewMode === 'fixed' ? 'presenter-fixed-size' : ''">
     <li ng-repeat="(key, item) in presentationController.presentation"
-        ng-class="{'is-active': key === presentationController.isActive}">
+        ng-class="{'is-active': key + 1 === presentationController.isActive}">
         <img ng-src="{{item.download_url}}"/>
     </li>
   </ul>

@@ -19,6 +19,15 @@
           notify: true
         });
       }
+
+      vm.displayFileContents = function(contents) {
+        vm.results = contents;
+      };
+
+
+      vm.uploadFile = function() {
+        console.log(JSON.parse(vm.results).name);
+      };
     };
 
     init();

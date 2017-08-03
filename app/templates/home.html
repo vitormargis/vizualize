@@ -11,4 +11,6 @@
       ng-model="homeController.path" class="input-text" />
     <button>Submit</button>
   </form>
+  <input type="file" on-read-file="homeController.displayFileContents(contents)"/>
+    <button ng-click="homeController.uploadFile()">upload me</button>
 </div>
